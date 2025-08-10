@@ -5,6 +5,9 @@ function STPUploader() {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [reviewer, setReviewer] = useState('');
+  const [logo, setLogo] = useState(null);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -21,6 +24,9 @@ function STPUploader() {
 
     const formData = new FormData();
     formData.append('stpFile', file);
+    formData.append('companyName', companyName);
+    formData.append('reviewer', reviewer);
+    formData.append('logo', logo);
 
     setUploading(true);
     setSuccessMsg('');
@@ -75,8 +81,44 @@ function STPUploader() {
               file:bg-blue-600 file:text-white
               hover:file:bg-blue-700 cursor-pointer"
           />
-        </div>
 
+        </div>
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Company Name:
+          </label>
+          <input
+            type="text"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Reviewer:
+          </label>
+          <input
+            type="text"
+            value={reviewer}
+            onChange={(e) => setReviewer(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Logo:
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setLogo(e.target.files[0])}
+            className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-blue-600 file:text-white
+              hover:file:bg-blue-700 cursor-pointer"
+          />
+
+        </div>
         <button
           type="submit"
           disabled={uploading}

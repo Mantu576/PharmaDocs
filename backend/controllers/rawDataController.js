@@ -59,25 +59,20 @@ exports.processRawData = async (req, res) => {
     
     const labels = values.map((_, i) => `Sample ${i + 1}`);
     const chartPath = `uploads/chart_${Date.now()}.png`;
-    await generateLineChart(labels, values, `Raw Data: ${firstKey}`, chartPath);
+    await generateLineChart(labels, values, `Raw Data: ${selectedColumn}`, chartPath);
 
     const chartBase64 = fs.readFileSync(chartPath, { encoding: 'base64' });
 
     res.json({
-      column: firstKey,
+      column: selectedColumn,
       mean: mean.toFixed(2),
       stdDev: stdDev.toFixed(2),
       rsd: rsd.toFixed(2),
       count: values.length,
       chartImage: `data:image/png;base64,${chartBase64}`
     });
-    
-  } catch (err) {
-    console.error('RawData error:', err);
-    res.status(500).json({ error: err.message });
-  }
-  // Log the action
-  Log.create({
+    // Log the action
+   await Log.create({
     username: "admin", // or use req.user.username if you have auth
     action: "upload",
     filename: file.originalname
@@ -85,6 +80,12 @@ exports.processRawData = async (req, res) => {
   console.log(`File processed: ${file.originalname}`);
   // Clean up uploaded file
   fs.unlinkSync(filePath);
+    
+  } catch (err) {
+    console.error('RawData error:', err);
+    res.status(500).json({ error: err.message });
+  }
+  
 
 };
 

@@ -19,12 +19,8 @@ app.use('/api/docs', docRoutes);
 app.use('/api/raw', rawDataRoutes);
 //mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 // filepath: c:\Users\mantu\OneDrive\Desktop\PharmaDocs\backend\server.js
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  tls: true,
-  tlsAllowInvalidCertificates: true
-}).catch(err => {
+mongoose.connect(process.env.MONGO_URI
+ ).catch(err => {
   console.error('MongoDB connection error:', err);
   process.exit(1);
 }).then(() => {

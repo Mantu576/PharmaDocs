@@ -1,20 +1,23 @@
 const mammoth = require('mammoth');
 const fs = require('fs');
 const path = require('path');
-const { Document, Packer, Paragraph, TextRun } = require('docx');
+const { Document, Packer, Paragraph, TextRun,Header,Footer,ImageRun } = require('docx');
 const askGemini = require('../utils/geminiService');
 const Log = require('../models/Log');
 
 exports.processSTP = async (req, res) => {
-  const file = req.file;
+  const stpFile = req.files?.stpFile?.[0];
+  const logoFile = req.files?.logo?.[0];
+  const { companyName, reviewer } = req.body;
 
-  if (!file) {
-    return res.status(400).json({ error: 'No file uploaded' });
+  if (!stpFile) {
+    return res.status(400).json({ error: 'No STP file uploaded' });
   }
 
-  const filePath = path.join(__dirname, '..', file.path);
-  const originalName = path.parse(file.originalname).name;
-  const ext = path.extname(file.originalname).toLowerCase();
+  const filePath = path.join(__dirname, '..', stpFile.path);
+  const logoPath = logoFile ? path.join(__dirname, '..', logoFile.path) : null;
+  const originalName = path.parse(stpFile.originalname).name;
+  const ext = path.extname(stpFile.originalname).toLowerCase();
 
   try {
     let content;
@@ -50,25 +53,46 @@ ${content}
     }
 
     // 📝 Build DOCX Report
+     const now = new Date();
     const doc = new Document({
-      sections: [{
-        properties: {},
-        children: [
-          new Paragraph({
-            text: "PharmaDocs AI Report",
-            heading: "Heading1",
-          }),
-          new Paragraph({
-            text: "AI-Generated Summary",
-            spacing: { before: 300 },
-          }),
-          ...aiOutput.split('\n').map(line =>
-            new Paragraph({
-              children: [new TextRun(line)],
-            })
-          ),
-        ],
-      }],
+      sections: [
+
+        {
+          children: [
+            ...(logoPath
+              ? [new Paragraph({
+                  children: [
+                    new ImageRun({
+                      data: fs.readFileSync(logoPath),
+                      transformation: { width: 100, height: 100 }
+                    })
+                  ]
+                })]
+              : []),
+            new Paragraph({ text: "PharmaDocs AI Report", heading: "Heading1" }),
+            new Paragraph({ text: "AI-Generated Content", spacing: { before: 300 } }),
+            ...(aiOutput.split('\n').map(line => new Paragraph(line)))
+          ],
+          headers: {
+            default: new Header({
+              children: [
+                new Paragraph({
+                  children: [new TextRun({ text: companyName || "PharmaDocs AI", bold: true })],
+                }),
+              ],
+            }),
+          },
+          footers: {
+            default: new Footer({
+              children: [
+                new Paragraph({ children: [new TextRun(`Reviewed by: ${reviewer || "N/A"}`)] }),
+                new Paragraph({ text: `Generated: ${now.toLocaleDateString()}`, alignment: 'right' }),
+              ],
+            }),
+          },
+         
+        },
+      ],
     });
 
     const buffer = await Packer.toBuffer(doc);
@@ -86,7 +110,9 @@ await Log.create({
 });
 
     // 🧼 Delete uploaded file to clean up
-    fs.unlinkSync(filePath);
+    
+     fs.unlinkSync(filePath);
+    if (logoPath) fs.unlinkSync(logoPath);
 
     console.log(`✅ File processed and report generated: ${outputFileName}`);
 

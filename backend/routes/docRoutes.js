@@ -9,7 +9,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
-router.post('/stp', upload.single('stpFile'), processSTP);
+router.post(
+  '/stp',
+  upload.fields([
+    { name: 'stpFile', maxCount: 1 },
+    { name: 'logo', maxCount: 1 }
+  ]),
+  processSTP
+);
 
 module.exports = router;
