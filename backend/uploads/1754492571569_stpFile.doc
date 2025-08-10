@@ -1,0 +1,73 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Text To Word</title></head><body><p>STANDARD TESTING PROCEDURE (STP)</p>
+<p>&nbsp;</p>
+<p>Company: XYZ Pharma Ltd.</p>
+<p>Document Code: STP-XYZ-001</p>
+<p>Revision No.: 01</p>
+<p>Date: August 5, 2025</p>
+<p>Prepared By: QA Department</p>
+<p>Approved By: Head &ndash; Quality Assurance</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>1. Objective</p>
+<p>&nbsp;</p>
+<p>To establish a validated and reproducible procedure for the analysis of Paracetamol tablets.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>2. Scope</p>
+<p>&nbsp;</p>
+<p>This procedure is applicable for the determination of assay and dissolution profile of Paracetamol tablets.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>3. Materials and Reagents</p>
+<p>&nbsp;</p>
+<p>Paracetamol Reference Standard</p>
+<p>&nbsp;</p>
+<p>Distilled Water</p>
+<p>&nbsp;</p>
+<p>Methanol</p>
+<p>&nbsp;</p>
+<p>HPLC grade solvents</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>4. Procedure</p>
+<p>&nbsp;</p>
+<p>1. Weigh 20 tablets and determine the average weight.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>2. Prepare sample solution as per the method.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>3. Inject the sample into the HPLC system.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>4. Calculate the content using the calibration curve.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>5. Acceptance Criteria</p>
+<p>&nbsp;</p>
+<p>The assay should be within 98% to 102% of the labeled claim.</p>
+<p>&nbsp;</p>
+<p>RSD (Relative Standard Deviation) should not exceed 2%.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>6. Safety Precautions</p>
+<p>&nbsp;</p>
+<p>Follow lab safety prot</p>
+<p>ocols.</p>
+<p>Use gloves, goggles, and lab coat during handling of chemicals.</p></body></html>
