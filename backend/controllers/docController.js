@@ -4,8 +4,32 @@ const path = require('path');
 const { Document, Packer, Paragraph, TextRun,Header,Footer,ImageRun } = require('docx');
 const askGemini = require('../utils/geminiService');
 const Log = require('../models/Log');
+const {exec}= require('child_process');
+const User=require('../models/User'); // Assuming you have a User model for user data
 
 exports.processSTP = async (req, res) => {
+  const userId = req.user?.userId; // assuming you decode JWT
+  const user = await User.findById(userId);
+
+  if (!user) return res.status(403).json({ msg: 'Unauthorized' });
+
+  // Check download limit
+  const now = new Date();
+  const sameMonth = now.getMonth() === new Date(user.lastReset).getMonth();
+
+  if (user.subscriptionPlan === 'Basic' && sameMonth && user.downloadsThisMonth >= 20) {
+    return res.status(403).json({ msg: 'Download limit reached' });
+  }
+
+  // Update user download stats
+  if (!sameMonth) {
+    user.downloadsThisMonth = 1;
+    user.lastReset = now;
+  } else {
+    user.downloadsThisMonth += 1;
+  }
+
+  await user.save();
   const stpFile = req.files?.stpFile?.[0];
   const logoFile = req.files?.logo?.[0];
   const { companyName, reviewer } = req.body;
@@ -94,8 +118,49 @@ ${content}
         },
       ],
     });
+  // 1️⃣ Create DOCX
+// const buffer = await Packer.toBuffer(doc);
+// const docxPath = path.join(__dirname, '..', 'uploads', `report_${Date.now()}.docx`);
+// fs.writeFileSync(docxPath, buffer);
+
+// // 2️⃣ Convert to PDF
+// const outputDir = path.resolve(__dirname, '..', 'uploads');
+// const convertCommand = `libreoffice --headless --convert-to pdf "${docxPath}" --outdir "${outputDir}"`;
+
+// exec(convertCommand, (error, stdout, stderr) => {
+//   if (error) {
+//     return res.status(500).json({ error: 'PDF conversion failed', details: stderr });
+//   }
+
+//   const pdfPath = docxPath.replace('.docx', '.pdf');
+
+//   // Send only PDF to client
+//   res.download(pdfPath, `PharmaDocs_Report.pdf`, (err) => {
+//     if (err) console.error('❌ Error sending file:', err);
+
+//     // Cleanup files
+//     fs.unlinkSync(docxPath);
+//     fs.unlinkSync(pdfPath);
+//   });
+// });
 
     const buffer = await Packer.toBuffer(doc);
+  // const docxPath = `uploads/report_${Date.now()}.docx`;
+  // fs.writeFileSync(docxPath, buffer);
+
+  // Convert to PDF using LibreOffice CLI
+ // const outputDir = path.resolve(__dirname, '..', 'uploads');
+  // const convertCommand = `libreoffice --headless --convert-to pdf "${docxPath}" --outdir "${outputDir}"`;
+
+  // exec(convertCommand, (error, stdout, stderr) => {
+  //   if (error) {
+  //     return res.status(500).json({ error: 'PDF conversion failed', details: stderr });
+  //   }
+
+  //   const pdfPath = docxPath.replace('.docx', '.pdf');
+  //   res.download(pdfPath); // send the PDF file
+  // });
+    
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const outputFileName = `PharmaDocs_${originalName}_${timestamp}.docx`;

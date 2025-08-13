@@ -36,6 +36,7 @@ function STPUploader() {
         responseType: 'blob',
         headers: {
           'Content-Type': 'multipart/form-data',
+           Authorization: `Bearer ${localStorage.getItem('token')}`
         },
       });
 
