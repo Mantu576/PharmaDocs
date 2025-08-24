@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -9,7 +10,8 @@ const userSchema = new mongoose.Schema({
   modulesAllowed: [String], // e.g., ['AMV']
   downloadsThisMonth: { type: Number, default: 0 },
   activeSession: { type: Boolean, default: false },
-  lastReset: { type: Date, default: Date.now }
+  lastReset: { type: Date, default: Date.now },
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
 });
-
 module.exports = mongoose.model('User', userSchema);

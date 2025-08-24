@@ -6,7 +6,7 @@ const askGemini = require('../utils/geminiService');
 const Log = require('../models/Log');
 const {exec}= require('child_process');
 const User=require('../models/User'); // Assuming you have a User model for user data
-
+const DocumentHistory=require('../models/History');
 exports.processSTP = async (req, res) => {
   const userId = req.user?.userId; // assuming you decode JWT
   const user = await User.findById(userId);
@@ -169,11 +169,17 @@ ${content}
     fs.writeFileSync(outputPath, buffer);
     // ...after fs.writeFileSync(outputPath, buffer); and before res.download...
 await Log.create({
-  username: "admin", // or use req.user.username if you have auth
+  username: "Admin",
   action: "generated",
   filename: outputFileName
 });
-
+await DocumentHistory.create({
+  userId: req.user._id,
+  username: req.user.username,
+  filename: outputFileName,
+  fileType: 'docx', // or detect from output
+  module: req.body.module || 'Unknown'
+});
     // 🧼 Delete uploaded file to clean up
     
      fs.unlinkSync(filePath);
@@ -188,10 +194,10 @@ await Log.create({
       }
 
       // Cleanup generated file after download
-      fs.unlink(outputPath, (err) => {
-        if (err) console.error('❌ Could not delete generated report:', err);
-        else console.log(`🧹 Cleaned up report: ${outputFileName}`);
-      });
+    //   fs.unlink(outputPath, (err) => {
+    //     if (err) console.error('❌ Could not delete generated report:', err);
+    //     else console.log(`🧹 Cleaned up report: ${outputFileName}`);
+    //   });
     });
 
   } catch (err) {

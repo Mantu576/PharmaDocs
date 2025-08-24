@@ -1,7 +1,9 @@
 const express = require('express');
+const path=require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+
 const docRoutes = require('./routes/docRoutes');
 const rawDataRoutes = require('./routes/rawDataRoutes');
 const logRoutes = require('./routes/logRoutes');
@@ -9,6 +11,9 @@ const userRoutes = require('./routes/userRoutes');
 const  adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const DocumentHistoryRoutes= require('./routes/documentHistoryRoutes');
+const moduleRoutes = require('./routes/moduleRoutes');
+const newDocRoutes = require('./routes/newDcoRoutes');
 
 
 dotenv.config();
@@ -22,7 +27,8 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use('/uploads', express.static('uploads'));
+//app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.resolve('uploads')));
 
 app.use('/api/docs', docRoutes);
 app.use('/api/raw', rawDataRoutes);
@@ -36,11 +42,12 @@ mongoose.connect(process.env.MONGO_URI
   console.log('MongoDB connected successfully');
 });
 app.use('/api/auth', authRoutes);
-
+app.use('/api/modules', moduleRoutes);
+app.use('/api/newdoc', newDocRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.use('/api/history', DocumentHistoryRoutes);
 app.use('/api', logRoutes);
 
 app.listen(process.env.PORT, () =>

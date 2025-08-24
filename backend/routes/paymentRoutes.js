@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const User = require('../models/User');
-const { verifyToken } = require('../middleware/authMiddleware');
+const { auth } = require('../middleware/authMiddleware');
 
-router.post("/create-checkout-session", verifyToken, async (req, res) => {
+router.post("/create-checkout-session", auth, async (req, res) => {
   const { plan } = req.body;
   const priceMap = { Basic: 2999, Pro: 5999, Enterprise: 9999 };
   if (!priceMap[plan]) return res.status(400).json({ msg: "Invalid plan" });

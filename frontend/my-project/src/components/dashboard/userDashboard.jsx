@@ -1,3 +1,4 @@
+// src/pages/UserDashboard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,9 +20,21 @@ export default function UserDashboard() {
         <nav className="flex-1 p-4 space-y-2">
           <button
             className="block w-full text-left px-4 py-2 rounded hover:bg-blue-700"
+            onClick={() => navigate("/available")} // ✅ corrected
+          >
+            📚 Modules
+          </button>
+          <button
+            className="block w-full text-left px-4 py-2 rounded hover:bg-blue-700"
             onClick={() => navigate("/stp")}
           >
             📄 STP Upload
+          </button>
+          <button
+            className="block w-full text-left px-4 py-2 rounded hover:bg-blue-700"
+            onClick={() => navigate("/create-document")}
+          >
+            📝 Create Document
           </button>
           <button
             className="block w-full text-left px-4 py-2 rounded hover:bg-blue-700"
@@ -71,5 +84,4 @@ export default function UserDashboard() {
         </main>
       </div>
     </div>
-  );
-}
+  )}

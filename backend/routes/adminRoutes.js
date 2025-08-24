@@ -2,22 +2,22 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const DocLog = require('../models/Log');
-const {verifyToken}=require('../middleware/authMiddleware');
+const {auth}=require('../middleware/authMiddleware');
 
 // List all users
-router.get('/users', verifyToken,  async (req, res) => {
+router.get('/users', auth,  async (req, res) => {
   const users = await User.find().select('-password');
   res.json(users);
 });
 
 // Get user by ID
-router.get('/user/:id', verifyToken,  async (req, res) => {
+router.get('/user/:id', auth,  async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
   if (!user) return res.status(404).json({ msg: 'User not found' });
   res.json(user);
 });
 // Delete user by ID
-router.delete('/user/:id', verifyToken,  async (req, res) => {
+router.delete('/user/:id', auth,  async (req, res) => {
   const user = await User.findByIdAndDelete(req.params.id);
   if (!user) return res.status(404).json({ msg: 'User not found' });
   res.json({ msg: 'User deleted successfully' });
@@ -25,7 +25,7 @@ router.delete('/user/:id', verifyToken,  async (req, res) => {
 
 
 // Update user plan
-router.put('/user/:id/plan', verifyToken,  async (req, res) => {
+router.put('/user/:id/plan', auth,  async (req, res) => {
   const { plan, modules } = req.body;
   const user = await User.findByIdAndUpdate(req.params.id, {
     subscriptionPlan: plan,
@@ -35,7 +35,7 @@ router.put('/user/:id/plan', verifyToken,  async (req, res) => {
 });
 
 // Doc statistics
-router.get('/doc-stats', verifyToken,  async (req, res) => {
+router.get('/doc-stats', auth,  async (req, res) => {
   const count = await DocLog.countDocuments();
   const users = await User.countDocuments();
   res.json({ documentsGenerated: count, totalUsers: users });
@@ -78,7 +78,7 @@ router.get("/stats", async (req, res) => {
 });
 // PATCH /api/admin/user/:id/plan
 
-router.patch("/user/:id/plan", verifyToken,  async (req, res) => {
+router.patch("/user/:id/plan", auth,  async (req, res) => {
   try {
     const { plan } = req.body;
     await User.findByIdAndUpdate(req.params.id, { subscriptionPlan: plan });

@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const { verifyToken } = require("../middleware/authMiddleware");
+const { auth } = require("../middleware/authMiddleware");
 
 // Update current user's subscription plan
-router.put("/me/plan", verifyToken, async (req, res) => {
+router.put("/me/plan", auth, async (req, res) => {
   try {
     const { plan, modules } = req.body;
 
