@@ -43,11 +43,16 @@ function App() {
        <Routes>
         {/* Wrap all routes inside Layout */}
         <Route element={<Layout />}>
-          <Route path="/modules" element={<ProtectedRoute><Modules /></ProtectedRoute>} />
+          <Route path="/available" element={<Modules />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
           <Route path="/create-document" element={<ProtectedRoute><CreateDocument /></ProtectedRoute>} />
+          <Route path="/stp" element={<ProtectedRoute><STPUploader /></ProtectedRoute>} />
+          <Route path="/upload" element={<ProtectedRoute><RAWDataUploader /></ProtectedRoute>} />
+          <Route path="/subscribe" element={<Subscribe />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/history" element={<ProtectedRoute><DocumentHistory /></ProtectedRoute>} />
         </Route>
       </Routes>
       {/* <Routes>
@@ -83,7 +88,7 @@ function App() {
             //</ProtectedRoute>
           }
         />
-        <Route path="/create-document" element={<ProtectedRoute><CreateDocument /></ProtectedRoute>} />
+        {/* <Route path="/create-document" element={<ProtectedRoute><CreateDocument /></ProtectedRoute>} />
         <Route
           path="/stp"
           element={
@@ -93,17 +98,17 @@ function App() {
              
           
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/upload"
           element={
             <ProtectedRoute>
               <RAWDataUploader />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
-        <Route path="/subscribe" element={<Subscribe />} />
+        {/* <Route path="/subscribe" element={<Subscribe />} />
 
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route
@@ -113,7 +118,7 @@ function App() {
               <DocumentHistory />
             </ProtectedRoute>
           }
-          />
+          /> */}
 
         <Route path="/" element={<HomePage />} />
       </Routes>

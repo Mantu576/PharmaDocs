@@ -24,7 +24,7 @@ const getModulesByPlan = (plan) => {
 // Controller
 exports.getAvailableModules = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId); // ✅ req.user.userId comes from authMiddleware
+    const user = await User.findById(req.user.Id); // ✅ req.user.userId comes from authMiddleware
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

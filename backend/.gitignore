@@ -1,7 +1,18 @@
-# env
-*/uploads
-*.env*
-node_modules
-dist
-dist-ssr
-*.local
+
+/uploads
+
+/node_modules
+#misc
+.env
+.env.local
+.env.*.local
+#production
+.env.production
+.env.production.local
+#test
+.env.test
+.env.test.local
+#development
+.env.development
+.env.development.local
+
