@@ -49,6 +49,12 @@ app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/history', DocumentHistoryRoutes);
 app.use('/api', logRoutes);
+// 🧩 Serve frontend (after build)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const frontendPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(frontendPath));
+app.get("*", (_, res) => res.sendFile(path.join(frontendPath, "index.html")));
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on http://localhost:${process.env.PORT}`)

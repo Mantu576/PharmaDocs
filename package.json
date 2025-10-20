@@ -1,10 +1,10 @@
 {
-    
-    
-    
-    "private":"true",
-    "scripts": {
-        "build":"cd frontend && npm install && npm run build",
-        "start": "cd backend && npm install && node server.js"
-    }
+  "name": "pharmadocs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "npm run build --workspace frontend"
+  },
+  "workspaces": ["frontend", "backend"]
 }
