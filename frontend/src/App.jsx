@@ -31,7 +31,7 @@ import RAWDataUploader from "./components/RAWDataUploader";
 import Subscribe from "./components/Subscribe";
 import PaymentSuccess from "./components/PaymentSuccess";
 import DocumentHistory from "./components/DocumentHistory"; 
-import CreateDocument from "./pages/createDocument";
+import CreateDocument from "./pages/CreateDocument";
 import ResetPassword from "./pages/ResetPassword"; // Import ResetPassword component
 import ForgotPassword from "./pages/ForgotPassword"; // Import ForgotPassword component
 
