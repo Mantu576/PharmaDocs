@@ -28,7 +28,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import STPUploader from "./components/STPUploader";
 import RAWDataUploader from "./components/RAWDataUploader";
-import Subscribe from "./components/subscribe";
+import Subscribe from "./components/Subscribe";
 import PaymentSuccess from "./components/PaymentSuccess";
 import DocumentHistory from "./components/DocumentHistory"; 
 import CreateDocument from "./pages/createDocument";
